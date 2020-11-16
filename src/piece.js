@@ -25,6 +25,7 @@ class Piece {
         this.y = 0;
     }
 
+    // 해당 테트로미노 그려주기
     draw() {
         this.ctx.fillStyle = this.color;
         this.shape.forEach((row, y) => {
