@@ -14,13 +14,9 @@ class Piece {
 
     // 테트로미노의 위치, 색상 및 모양 지정
     spawn() {
-        this.color = 'blue';
-        this.shape = [
-            [2, 0, 0],
-            [2, 2, 2],
-            [0, 0, 0]
-        ];
-
+        const typeId = this.randomizeTetrominoType(COLORS.length);
+        this.shape = SHAPES[typeId];
+        this.color = COLORS[typeId];
         // Starting position
         this.x = 3;
         this.y = 0;
@@ -45,5 +41,9 @@ class Piece {
     move(p) {
         this.x = p.x;
         this.y = p.y;
+    }
+
+    randomizeTetrominoType(noOfTypes) {
+        return Math.floor(Math.random() * noOfTypes);
     }
 }
