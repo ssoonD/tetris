@@ -12,6 +12,7 @@ class Piece {
         this.spawn();
     }
 
+    // 테트로미노의 위치, 색상 및 모양 지정
     spawn() {
         this.color = 'blue';
         this.shape = [
@@ -38,5 +39,11 @@ class Piece {
                 }
             });
         });
+    }
+
+    // 보드 위에서 위치를 변경하기 위해 현재 조각의 x 또는 y 변경
+    move(p) {
+        this.x = p.x;
+        this.y = p.y;
     }
 }

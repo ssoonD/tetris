@@ -19,3 +19,26 @@ function play() {
 
     board.piece = piece;
 }
+
+const moves = {
+    [KEY.LEFT]: p => ({ ...p, x: p.x - 1 }),
+    [KEY.RIGHT]: p => ({ ...p, x: p.x + 1 }),
+    [KEY.UP]: p => ({ ...p, y: p.y + 1 })
+};
+
+document.addEventListener('keydown', event => {
+    if (moves[event.key]) {
+        // 이벤트 버블링을 막는다.
+        event.preventDefault();
+
+        // 조각의 새 상태를 얻는다.
+        let p = moves[event.key](board.piece);
+
+        board.piece.move(p);
+
+        // 그리기 전에 이전 좌표를 지운다.
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+        board.piece.draw();
+    }
+});
