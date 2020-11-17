@@ -23,6 +23,7 @@ let board = new Board();
 function play() {
     board.getEmptyBoard();
     let piece = new Piece(ctx);
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     piece.draw();
 
     board.piece = piece;
@@ -41,10 +42,11 @@ document.addEventListener('keydown', event => {
             while (board.valid(p)) {
                 board.piece.move(p);
                 p = moves[KEY.DOWN](board.piece);
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                board.piece.draw();
             }
         } else if (board.valid(p)) {
             // 이동이 가능한 상태라면 조각을 이동한다.
-            console.log(p);
             board.piece.move(p);
 
             // 그리기 전에 이전 좌표를 지운다.
