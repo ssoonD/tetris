@@ -8,7 +8,8 @@ const BLOCK_SIZE = 30;
 const KEY = {
     LEFT: 'ArrowLeft',
     RIGHT: 'ArrowRight',
-    DOWN: 'ArrowDown'
+    DOWN: 'ArrowDown',
+    SPACE: ' '
 };
 
 // Object.freeze() : 객체를 동결

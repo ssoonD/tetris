@@ -23,7 +23,8 @@ function play() {
 const moves = {
     [KEY.LEFT]: p => ({ ...p, x: p.x - 1 }),
     [KEY.RIGHT]: p => ({ ...p, x: p.x + 1 }),
-    [KEY.DOWN]: p => ({ ...p, y: p.y + 1 })
+    [KEY.DOWN]: p => ({ ...p, y: p.y + 1 }),
+    [KEY.SPACE]: p => ({ ...p, y: p.y + 1 })
 };
 
 document.addEventListener('keydown', event => {
@@ -31,10 +32,16 @@ document.addEventListener('keydown', event => {
         // 이벤트 버블링을 막는다.
         event.preventDefault();
 
-        // 조각의 새 상태를 얻는다.
+        // Get new state
         let p = moves[event.key](board.piece);
 
-        if (board.valid(p)) {
+        if (event.key === KEY.SPACE) {
+            // Hard drop
+            while (board.valid(p)) {
+                board.piece.move(p);
+                p = moves[KEY.DOWN](board.piece);
+            }
+        } else if (board.valid(p)) {
             // 이동이 가능한 상태라면 조각을 이동한다.
             board.piece.move(p);
 
