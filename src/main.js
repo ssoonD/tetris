@@ -10,6 +10,8 @@ ctx.canvas.height = ROWS * BLOCK_SIZE;
 // 블록의 크기를 변경한다.
 ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
 
+let requestId = null;
+
 const moves = {
     [KEY.LEFT]: p => ({ ...p, x: p.x - 1 }),
     [KEY.RIGHT]: p => ({ ...p, x: p.x + 1 }),
@@ -23,10 +25,9 @@ let board = new Board();
 function play() {
     board.getEmptyBoard();
     let piece = new Piece(ctx);
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    piece.draw();
-
     board.piece = piece;
+
+    animate();
 }
 
 document.addEventListener('keydown', event => {
@@ -48,11 +49,30 @@ document.addEventListener('keydown', event => {
         } else if (board.valid(p)) {
             // 이동이 가능한 상태라면 조각을 이동한다.
             board.piece.move(p);
-
-            // 그리기 전에 이전 좌표를 지운다.
-            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-            board.piece.draw();
         }
     }
-}); 
+});
+
+let time = { start: 0, elapsed: 0, level: 1000 };
+
+// game loop
+function animate(p, now = 0) {
+    // 지난 시간을 업데이트 한다.
+    time.elapsed = now - time.start;
+
+    // 지난 시간이 현재 레벨의 시간을 초과했는지 확인한다. 
+    if (time.elapsed > time.level) {
+        // 현재 시간을 다시 측정한다.
+        time.start = now;
+    }
+
+    if (requestId % 60 === 0) {
+        p = moves[KEY.DOWN](board.piece);
+        board.piece.move(p);
+        // 새로운 상태로 그리기 전에 보드를 지운다. 
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+        board.piece.draw();
+    }
+    requestId = requestAnimationFrame(animate);
+}
