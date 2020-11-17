@@ -43,4 +43,18 @@ class Board {
     aboveFloor(y) {
         return y < ROWS;
     }
+
+    rotate(p) {
+        // 행렬을 변환한다.
+        for (let y = 0; y < p.shape.length; ++y) {
+            for (let x = 0; x < y; ++x) {
+                [p.shape[x][y], p.shape[y][x]] = [p.shape[y][x], p.shape[x][y]];
+            }
+        }
+
+        // 열 순서대로 뒤집는다.
+        p.shape.forEach(row => row.reverse());
+
+        return p;
+    }
 }

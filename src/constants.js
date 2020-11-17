@@ -9,6 +9,7 @@ const KEY = {
     LEFT: 'ArrowLeft',
     RIGHT: 'ArrowRight',
     DOWN: 'ArrowDown',
+    UP: 'ArrowUp',
     SPACE: ' '
 };
 
