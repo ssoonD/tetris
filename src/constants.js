@@ -6,9 +6,9 @@ const BLOCK_SIZE = 30;
 
 // 키들을 키 코드 값으로 매핑
 const KEY = {
-    LEFT: 37,
-    RIGHT: 39,
-    DOWN: 40
+    LEFT: 'ArrowLeft',
+    RIGHT: 'ArrowRight',
+    DOWN: 'ArrowDown'
 };
 
 // Object.freeze() : 객체를 동결

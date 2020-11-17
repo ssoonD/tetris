@@ -23,7 +23,7 @@ function play() {
 const moves = {
     [KEY.LEFT]: p => ({ ...p, x: p.x - 1 }),
     [KEY.RIGHT]: p => ({ ...p, x: p.x + 1 }),
-    [KEY.UP]: p => ({ ...p, y: p.y + 1 })
+    [KEY.DOWN]: p => ({ ...p, y: p.y + 1 })
 };
 
 document.addEventListener('keydown', event => {
@@ -34,11 +34,14 @@ document.addEventListener('keydown', event => {
         // 조각의 새 상태를 얻는다.
         let p = moves[event.key](board.piece);
 
-        board.piece.move(p);
+        if (board.valid(p)) {
+            // 이동이 가능한 상태라면 조각을 이동한다.
+            board.piece.move(p);
 
-        // 그리기 전에 이전 좌표를 지운다.
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            // 그리기 전에 이전 좌표를 지운다.
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-        board.piece.draw();
+            board.piece.draw();
+        }
     }
-});
+}); 
