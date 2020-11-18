@@ -13,20 +13,19 @@ ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
 let requestId = null;
 
 const moves = {
-    [KEY.LEFT]: p => ({ ...p, x: p.x - 1 }),
-    [KEY.RIGHT]: p => ({ ...p, x: p.x + 1 }),
-    [KEY.DOWN]: p => ({ ...p, y: p.y + 1 }),
-    [KEY.SPACE]: p => ({ ...p, y: p.y + 1 }),
+    [KEY.LEFT]: p => ({ x: p.x - 1, y: p.y, shape: p.shape }),
+    [KEY.RIGHT]: p => ({ x: p.x + 1, y: p.y, shape: p.shape }),
+    [KEY.DOWN]: p => ({ x: p.x, y: p.y + 1, shape: p.shape }),
+    [KEY.SPACE]: p => ({ x: p.x, y: p.y + 1, shape: p.shape }),
     [KEY.UP]: p => board.rotate(p)
 };
 
-let board = new Board();
+let board = new Board(ctx);
 
 function play() {
-    board.getEmptyBoard();
+    board.reset();
     let piece = new Piece(ctx);
     board.piece = piece;
-
     animate();
 }
 
@@ -44,7 +43,7 @@ document.addEventListener('keydown', event => {
                 board.piece.move(p);
                 p = moves[KEY.DOWN](board.piece);
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                board.piece.draw();
+                board.draw();
             }
         } else if (board.valid(p)) {
             // 이동이 가능한 상태라면 조각을 이동한다.
@@ -53,26 +52,25 @@ document.addEventListener('keydown', event => {
     }
 });
 
-let time = { start: 0, elapsed: 0, level: 1000 };
+let time = { start: 0, elapsed: 0 };
 
 // game loop
-function animate(p, now = 0) {
+function animate(now = 0) {
     // 지난 시간을 업데이트 한다.
-    time.elapsed = now - time.start;
+    const delta = now - time.start;
+    time.elapsed += delta;
+    time.start = now;
 
-    // 지난 시간이 현재 레벨의 시간을 초과했는지 확인한다. 
-    if (time.elapsed > time.level) {
-        // 현재 시간을 다시 측정한다.
-        time.start = now;
+    if (time.elapsed >= board.level) {
+        time.elapsed %= board.level;
+        if (!board.drop()) {
+            return;
+        }
     }
 
-    if (requestId % 60 === 0) {
-        p = moves[KEY.DOWN](board.piece);
-        board.piece.move(p);
-        // 새로운 상태로 그리기 전에 보드를 지운다. 
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    // 새로운 상태로 그리기 전에 보드를 지운다. 
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-        board.piece.draw();
-    }
-    requestId = requestAnimationFrame(animate);
+    board.draw();
+    requestAnimationFrame(animate);
 }

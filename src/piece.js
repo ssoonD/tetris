@@ -1,12 +1,6 @@
 // 테트리스 조각 로직 파일
 
 class Piece {
-    x;
-    y;
-    color;
-    shape;
-    ctx;
-
     constructor(ctx) {
         this.ctx = ctx;
         this.spawn();
@@ -19,7 +13,7 @@ class Piece {
         this.color = COLORS[typeId];
         // Starting position
         this.x = 3;
-        this.y = 0;
+        this.y = -1;
     }
 
     // 해당 테트로미노 그려주기
@@ -39,11 +33,19 @@ class Piece {
 
     // 보드 위에서 위치를 변경하기 위해 현재 조각의 x 또는 y 변경
     move(p) {
+        this.shape = p.shape;
         this.x = p.x;
         this.y = p.y;
     }
 
+    // 랜덤 번호 만들어주기
     randomizeTetrominoType(noOfTypes) {
         return Math.floor(Math.random() * noOfTypes);
     }
+
+    // shape 복사하기
+    copyShape() {
+        return this.shape.map(row => [...row.map(item => item)]);
+    }
+
 }
