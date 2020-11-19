@@ -36,6 +36,7 @@ class Board {
     getNewNextPiece() {
         const { width, height } = this.ctxNext.canvas;
         this.next = new Piece(this.ctxNext);
+        this.next.setStartingPositionY();
         this.ctxNext.clearRect(0, 0, width, height);
         this.next.draw();
     }
@@ -43,6 +44,7 @@ class Board {
     getNewKeepPiece() {
         const { width, height } = this.ctxKeep.canvas;
         this.keep = new Piece(this.ctxKeep);
+        this.keep.setStartingPositionY();
         this.ctxKeep.clearRect(0, 0, width, height);
         this.keep.draw();
     }
@@ -141,6 +143,7 @@ class Board {
             this.piece = this.next;
             this.piece.ctx = this.ctx;
             this.piece.setStartingPosition();
+            this.piece.y = -1;
             this.getNewNextPiece();
         }
         return true;
@@ -172,6 +175,7 @@ class Board {
         const { width, height } = this.ctxKeep.canvas;
         this.ctxKeep.clearRect(0, 0, width, height);
         this.keep.draw();
+
         return { x, y, shape, typeId };
     }
 
