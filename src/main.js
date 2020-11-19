@@ -3,6 +3,27 @@
 const canvas = document.getElementById('board');
 const ctx = canvas.getContext('2d');
 
+let accountValues = {
+    score: 0,
+    level: 0,
+    lines: 0
+};
+
+function updateAccount(key, value) {
+    let element = document.getElementById(key);
+    if (element) {
+        element.textContent = value;
+    }
+}
+
+let account = new Proxy(accountValues, {
+    set: (target, key, value) => {
+        target[key] = value;
+        updateAccount(key, value);
+        return true;
+    }
+})
+
 // 상수를 사용해 캔버스의 크기를 계산한다.
 ctx.canvas.width = COLS * BLOCK_SIZE;
 ctx.canvas.height = ROWS * BLOCK_SIZE;
@@ -11,6 +32,7 @@ ctx.canvas.height = ROWS * BLOCK_SIZE;
 ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
 
 let requestId = null;
+let time = { start: 0, elapsed: 0 };
 
 const moves = {
     [KEY.LEFT]: p => ({ x: p.x - 1, y: p.y, shape: p.shape }),
@@ -40,6 +62,9 @@ document.addEventListener('keydown', event => {
         if (event.key === KEY.SPACE) {
             // Hard drop
             while (board.valid(p)) {
+                // score
+                account.score += POINTS.HARD_DROP;
+
                 board.piece.move(p);
                 p = moves[KEY.DOWN](board.piece);
                 ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -48,11 +73,14 @@ document.addEventListener('keydown', event => {
         } else if (board.valid(p)) {
             // 이동이 가능한 상태라면 조각을 이동한다.
             board.piece.move(p);
+
+            // score
+            if (event.key === KEY.DOWN) {
+                account.score += POINTS.SOFT_DROP;
+            }
         }
     }
 });
-
-let time = { start: 0, elapsed: 0 };
 
 // game loop
 function animate(now = 0) {

@@ -61,7 +61,17 @@ const KEY = {
     SPACE: ' '
 };
 
+const POINTS = {
+    SINGLE: 100,
+    DOUBLE: 300,
+    TRIPLE: 500,
+    TETRIS: 800,
+    SOFT_DROP: 1,
+    HARD_DROP: 2
+}
+
 // Object.freeze() : 객체를 동결
 // 1. 잘 동작하게 하려면, 엄격 모드를 사용
 // 2. 불변으로 만드는 값은 1레벨에서만 동작
 Object.freeze(KEY);
+Object.freeze(POINTS);
