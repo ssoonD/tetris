@@ -25,6 +25,9 @@ class Piece {
                 if (value > 0) {
                     this.ctx.fillStyle = COLORS[value - 1];
                     this.ctx.fillRect(this.x + x, this.y + y, 1, 1);
+                    this.ctx.strokeStyle = '#ffffff';
+                    this.ctx.lineWidth = 0.1;
+                    this.ctx.strokeRect(this.x + x, this.y + y, 1, 1);
                 }
             });
         });
@@ -47,6 +50,10 @@ class Piece {
 
     getStartingPosition() {
         return this.typeId === 3 ? 4 : 3;
+    }
+
+    setStartingPositionY() {
+        this.y = 0;
     }
 
     // 랜덤 번호 만들어주기

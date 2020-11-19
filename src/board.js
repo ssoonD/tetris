@@ -48,12 +48,10 @@ class Board {
     }
 
     valid(p) {
-        console.log('start')
         return p.shape.every((row, dy) => {
             return row.every((value, dx) => {
                 let x = p.x + dx;
                 let y = p.y + dy;
-                console.log(y);
                 return (
                     this.isEmpty(value) || (this.isInsideWall(x, y) && this.notOccupied(x, y))
                 );
@@ -154,6 +152,9 @@ class Board {
                 if (value > 0) {
                     this.ctx.fillStyle = COLORS[value - 1];
                     this.ctx.fillRect(x, y, 1, 1);
+                    this.ctx.strokeStyle = '#ffffff';
+                    this.ctx.lineWidth = 0.1;
+                    this.ctx.strokeRect(x, y, 1, 1);
                 }
             });
         });

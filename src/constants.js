@@ -101,14 +101,14 @@ const LEVEL = {
 };
 
 const CONTROL_KEYS = [
-    '&nbsp;△&nbsp;&nbsp;: Turn',
+    '\u00a0△ \u00a0: Turn',
     '◁  ▷ : Left / Right',
-    '&nbsp;▽&nbsp;&nbsp;: Soft Drop',
-    '<br>',
-    'CONTROL: Keep',
-    '&nbsp;SPACE : Hard Drop',
-    '&nbsp;&nbsp; P&nbsp;&nbsp; : Pause',
-    '&nbsp; ESC&nbsp; : Quit'
+    '\u00a0▽ \u00a0: Soft Drop',
+    '\n',
+    'CONTROL : Keep',
+    '\u00a0SPACE \u00a0: Hard Drop',
+    '\u00a0\u00a0\u00a0P \u00a0\u00a0\u00a0: Pause',
+    '\u00a0\u00a0ESC \u00a0\u00a0: Quit'
 ];
 
 // Object.freeze() : 객체를 동결

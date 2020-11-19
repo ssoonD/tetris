@@ -229,7 +229,6 @@ function checkHighScore(score) {
             const name = input.value;
             const newScore = { score, name };
             saveHighScore(newScore, highScores);
-            showHighScores();
         });
     }
 }
