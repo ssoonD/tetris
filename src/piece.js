@@ -13,7 +13,7 @@ class Piece {
         this.color = COLORS[typeId];
         // Starting position
         this.x = 3;
-        this.y = -1;
+        this.y = 0;
     }
 
     // 해당 테트로미노 그려주기
