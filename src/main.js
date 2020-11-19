@@ -4,6 +4,8 @@ const canvas = document.getElementById('board');
 const ctx = canvas.getContext('2d');
 const canvasNext = document.getElementById('next');
 const ctxNext = canvasNext.getContext('2d');
+const canvasKeep = document.getElementById('keep');
+const ctxKeep = canvasKeep.getContext('2d');
 
 let accountValues = {
     score: 0,
@@ -26,13 +28,6 @@ let account = new Proxy(accountValues, {
     }
 });
 
-// 상수를 사용해 캔버스의 크기를 계산한다.
-ctx.canvas.width = COLS * BLOCK_SIZE;
-ctx.canvas.height = ROWS * BLOCK_SIZE;
-
-// 블록의 크기를 변경한다.
-ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
-
 let requestId = null;
 let time = null;
 
@@ -41,18 +36,26 @@ const moves = {
     [KEY.RIGHT]: p => ({ x: p.x + 1, y: p.y, shape: p.shape }),
     [KEY.DOWN]: p => ({ x: p.x, y: p.y + 1, shape: p.shape }),
     [KEY.SPACE]: p => ({ x: p.x, y: p.y + 1, shape: p.shape }),
-    [KEY.UP]: p => board.rotate(p)
+    [KEY.UP]: p => board.rotate(p),
+    [KEY.CONTROL]: p => board.changePiece(p)
 };
 
-let board = new Board(ctx, ctxNext);
+let board = new Board(ctx, ctxNext, ctxKeep);
 
 initNext();
+initKeep();
 
 function initNext() {
     // 4개 블록을 위한 캔버스 사이즈를 설정한다.
     ctxNext.canvas.width = 4 * BLOCK_SIZE;
     ctxNext.canvas.height = 4 * BLOCK_SIZE;
     ctxNext.scale(BLOCK_SIZE, BLOCK_SIZE);
+}
+
+function initKeep() {
+    ctxKeep.canvas.width = 4 * BLOCK_SIZE;
+    ctxKeep.canvas.height = 4 * BLOCK_SIZE;
+    ctxKeep.scale(BLOCK_SIZE, BLOCK_SIZE);
 }
 
 function play() {

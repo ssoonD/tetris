@@ -1,9 +1,20 @@
 // 보드 로직 파일
 
 class Board {
-    constructor(ctx, ctxNext) {
+    constructor(ctx, ctxNext, ctxKeep) {
         this.ctx = ctx;
         this.ctxNext = ctxNext;
+        this.ctxKeep = ctxKeep;
+        this.init();
+    }
+
+    init() {
+        // 상수를 사용해 캔버스의 크기를 계산한다.
+        ctx.canvas.width = COLS * BLOCK_SIZE;
+        ctx.canvas.height = ROWS * BLOCK_SIZE;
+
+        // 블록의 크기를 변경한다.
+        ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
     }
 
     // 새 게임이 시작되면 보드를 초기화한다.
@@ -11,7 +22,8 @@ class Board {
         this.grid = this.getEmptyBoard();
         this.piece = new Piece(this.ctx);
         this.piece.setStartingPosition();
-        this.getNewPiece();
+        this.getNewNextPiece();
+        this.getNewKeepPiece();
     }
 
     // 0으로 채워진 행렬을 얻는다.
@@ -21,11 +33,18 @@ class Board {
         );
     }
 
-    getNewPiece() {
+    getNewNextPiece() {
         const { width, height } = this.ctxNext.canvas;
         this.next = new Piece(this.ctxNext);
         this.ctxNext.clearRect(0, 0, width, height);
         this.next.draw();
+    }
+
+    getNewKeepPiece() {
+        const { width, height } = this.ctxKeep.canvas;
+        this.keep = new Piece(this.ctxKeep);
+        this.ctxKeep.clearRect(0, 0, width, height);
+        this.keep.draw();
     }
 
     valid(p) {
@@ -121,7 +140,7 @@ class Board {
             this.piece = this.next;
             this.piece.ctx = this.ctx;
             this.piece.setStartingPosition();
-            this.getNewPiece();
+            this.getNewNextPiece();
         }
         return true;
     }
@@ -135,6 +154,11 @@ class Board {
                 }
             });
         });
+    }
+
+    changePiece(p) {
+        [p, this.keep] = [this.keep, p];
+        return p;
     }
 
     rotate(p) {

@@ -59,7 +59,8 @@ const KEY = {
     RIGHT: 'ArrowRight',
     DOWN: 'ArrowDown',
     UP: 'ArrowUp',
-    SPACE: ' '
+    SPACE: ' ',
+    CONTROL: 'Control'
 };
 
 const POINTS = {
