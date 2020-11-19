@@ -32,7 +32,7 @@ ctx.canvas.height = ROWS * BLOCK_SIZE;
 ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
 
 let requestId = null;
-let time = { start: 0, elapsed: 0 };
+let time = null;
 
 const moves = {
     [KEY.LEFT]: p => ({ x: p.x - 1, y: p.y, shape: p.shape }),
@@ -45,10 +45,19 @@ const moves = {
 let board = new Board(ctx);
 
 function play() {
-    board.reset();
+    resetGame();
     let piece = new Piece(ctx);
     board.piece = piece;
     animate();
+}
+
+// 게임 초기화
+function resetGame() {
+    account.score = 0;
+    account.lines = 0;
+    account.level = 0;
+    board.reset();
+    time = { start: performance.now(), elapsed: 0, level: LEVEL[account.level] };
 }
 
 document.addEventListener('keydown', event => {
@@ -89,8 +98,8 @@ function animate(now = 0) {
     time.elapsed += delta;
     time.start = now;
 
-    if (time.elapsed >= board.level) {
-        time.elapsed %= board.level;
+    if (time.elapsed >= time.level) {
+        time.elapsed %= time.level;
         if (!board.drop()) {
             return;
         }

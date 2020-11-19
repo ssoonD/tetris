@@ -3,7 +3,6 @@
 class Board {
     constructor(ctx) {
         this.ctx = ctx;
-        this.level = 1000;
     }
 
     // 새 게임이 시작되면 보드를 초기화한다.
@@ -56,6 +55,7 @@ class Board {
 
     cleanLines() {
         let lines = 0;
+
         this.grid.forEach((row, y) => {
             // 모든 갑시 0보다 큰지 비교한다.
             if (row.every(value => value > 0)) {
@@ -70,8 +70,22 @@ class Board {
         });
 
         if (lines > 0) {
-            // 지워진 줄이 있다면 점수를 더한다.
+            // 지워진 줄과 레벨로 점수를 계산한다.
+
             account.score += this.getLineClearPoints(lines);
+            account.lines += lines;
+
+            // 다음 레벨에 도달할 수 있는 줄 수 가 되었다면
+            if (account.lines >= LINES_PER_LEVEL) {
+                // 레벨 값을 증가시킨다.
+                account.level++;
+
+                // 다음 레벨을 시작하기 위해 줄을 지운다.
+                account.lines -= LINES_PER_LEVEL;
+
+                // 게임 속도를 올린다.
+                time.level = LEVEL[account.level];
+            }
         }
     }
 
@@ -122,10 +136,12 @@ class Board {
 
     // 블록 줄을 지웠을 때 점수
     getLineClearPoints(lines) {
-        return lines === 1 ? POINTS.SINGLE :
-            lines === 2 ? POINTS.DOUBLE :
-                lines === 3 ? POINTS.TRIPLE :
-                    lines === 4 ? POINTS.TETRIS :
-                        0;
+        const lineClearPints =
+            lines === 1 ? POINTS.SINGLE :
+                lines === 2 ? POINTS.DOUBLE :
+                    lines === 3 ? POINTS.TRIPLE :
+                        lines === 4 ? POINTS.TETRIS :
+                            0;
+        return (account.level + 1) * lineClearPints;
     }
 }
