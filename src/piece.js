@@ -12,7 +12,7 @@ class Piece {
         this.shape = SHAPES[this.typeId];
         // Starting position
         this.x = 0;
-        this.y = 0;
+        this.y = -1;
     }
 
     // 해당 테트로미노 그려주기

@@ -199,20 +199,24 @@ function pause() {
 }
 
 function showControlKey() {
-    const contorlKeyList = document.getElementById('contorl-keys');
+    const controlKeyList = document.getElementById('control-keys');
 
-    contorlKeyList.innerHTML = CONTROL_KEYS
-        .map((key) => `<li>${key}`)
-        .join('');
+    CONTROL_KEYS.forEach((key) => {
+        const li = document.createElement('li');
+        li.innerText = `${key}`;
+        controlKeyList.appendChild(li);
+    });
 }
 
 function showHighScores() {
     const highScores = JSON.parse(localStorage.getItem('highScores')) || [];
     const highScoreList = document.getElementById('highScores');
 
-    highScoreList.innerHTML = highScores
-        .map((score) => `<li>${score.score} - ${score.name}`)
-        .join('');
+    highScores.forEach((score) => {
+        const li = document.createElement('li');
+        li.innerText = `${score.score} - ${score.name}`;
+        highScoreList.appendChild(li);
+    })
 }
 
 function checkHighScore(score) {

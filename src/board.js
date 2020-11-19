@@ -48,10 +48,12 @@ class Board {
     }
 
     valid(p) {
+        console.log('start')
         return p.shape.every((row, dy) => {
             return row.every((value, dx) => {
                 let x = p.x + dx;
                 let y = p.y + dy;
+                console.log(y);
                 return (
                     this.isEmpty(value) || (this.isInsideWall(x, y) && this.notOccupied(x, y))
                 );
@@ -75,7 +77,8 @@ class Board {
     freeze() {
         this.piece.shape.forEach((row, y) => {
             row.forEach((value, x) => {
-                if (value > 0) {
+                let dy = y + this.piece.y;
+                if (value > 0 && dy >= 0) {
                     this.grid[y + this.piece.y][x + this.piece.x] = value;
                 }
             });
@@ -129,7 +132,7 @@ class Board {
             this.piece.move(p);
         } else {
             // Game over 
-            if (this.piece.y === 0) {
+            if (this.piece.y <= 0) {
                 return false;
             }
 
