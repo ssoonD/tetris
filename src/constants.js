@@ -61,7 +61,9 @@ const KEY = {
     DOWN: 'ArrowDown',
     UP: 'ArrowUp',
     SPACE: ' ',
-    CONTROL: 'Control'
+    CONTROL: 'Control',
+    ALT: 'Alt',
+    ESC: 'Escape'
 };
 
 const POINTS = {

@@ -64,7 +64,9 @@ function addEventListener() {
 }
 
 function handleKeyPress(event) {
-    if (moves[event.key]) {
+    if (event.key === KEY.ESC) {
+        gameOver();
+    } else if (moves[event.key]) {
         // 이벤트 버블링을 막는다.
         event.preventDefault();
 
