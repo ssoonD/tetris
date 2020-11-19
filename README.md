@@ -11,6 +11,7 @@
 ### <추가> keep 기능
 ### <추가> control keyboard list
 ### <추가> strokeRect
+### 전체적인 리펙토링
 
 <br><br>
 
