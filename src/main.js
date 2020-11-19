@@ -100,7 +100,9 @@ function animate(now = 0) {
 
     if (time.elapsed >= time.level) {
         time.elapsed %= time.level;
+
         if (!board.drop()) {
+            gameOver();
             return;
         }
     }
@@ -109,5 +111,16 @@ function animate(now = 0) {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
     board.draw();
-    requestAnimationFrame(animate);
+    requestId = requestAnimationFrame(animate);
+}
+
+// Game over
+function gameOver() {
+    cancelAnimationFrame(requestId);
+
+    ctx.fillStyle = 'black';
+    ctx.fillRect(1, 3, 8, 1.2);
+    ctx.font = '1px Arial';
+    ctx.fillStyle = 'red';
+    ctx.fillText('GAME OVER', 1.8, 4);
 }

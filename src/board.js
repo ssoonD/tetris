@@ -99,6 +99,11 @@ class Board {
         if (this.valid(p)) {
             this.piece.move(p);
         } else {
+            // Game over 
+            if (this.piece.y === 0) {
+                return false;
+            }
+
             this.freeze();
             this.cleanLines();
             this.piece.spawn();
