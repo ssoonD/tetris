@@ -35,11 +35,18 @@ class Piece {
         this.shape = p.shape;
         this.x = p.x;
         this.y = p.y;
+        if (typeof p.typeId === 'number') {
+            this.typeId = p.typeId;
+        }
     }
 
     // 테트로미노 index 지정
     setStartingPosition() {
-        this.x = this.typeId === 3 ? 4 : 3;
+        this.x = this.getStartingPosition();
+    }
+
+    getStartingPosition() {
+        return this.typeId === 3 ? 4 : 3;
     }
 
     // 랜덤 번호 만들어주기

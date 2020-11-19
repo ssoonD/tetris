@@ -157,13 +157,18 @@ class Board {
     }
 
     changePiece(p) {
-        [p, this.keep] = [this.keep, p];
-        p.setStartingPosition();
+        const shape = this.keep.copyShape();
+        const x = this.keep.getStartingPosition();
+        const y = 0;
+        const typeId = this.keep.typeId;
+
+        this.keep.shape = SHAPES[p.typeId];
+        this.keep.typeId = p.typeId;
 
         const { width, height } = this.ctxKeep.canvas;
         this.ctxKeep.clearRect(0, 0, width, height);
         this.keep.draw();
-        return p;
+        return { x, y, shape, typeId };
     }
 
     rotate(p) {

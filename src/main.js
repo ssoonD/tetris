@@ -93,9 +93,15 @@ function handleKeyPress(event) {
 
                 board.piece.move(p);
                 p = moves[KEY.DOWN](board.piece);
-                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                board.draw();
             }
+
+            if (!board.drop()) {
+                gameOver();
+                return;
+            }
+
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            board.draw();
         } else if (board.valid(p)) {
             // 이동이 가능한 상태라면 조각을 이동한다.
             board.piece.move(p);
