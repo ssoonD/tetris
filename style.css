@@ -4,7 +4,16 @@
   
   .grid {
     display: grid;
-    grid-template-columns: 320px 200px;
+    grid-template-columns: 350px 320px 200px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .left-column {
+    display: flex;
+    flex-direction: column;
   }
   
   .right-column {
@@ -24,6 +33,13 @@
     cursor: pointer;
   }
 
-  #next-txt {
-    text-align: center;
+  .next-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #pause-btn {
+    display: none;
   }
