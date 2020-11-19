@@ -44,6 +44,7 @@ let board = new Board(ctx, ctxNext, ctxKeep);
 
 initNext();
 initKeep();
+showHighScores();
 
 function initNext() {
     // 4개 블록을 위한 캔버스 사이즈를 설정한다.
@@ -58,24 +59,11 @@ function initKeep() {
     ctxKeep.scale(BLOCK_SIZE, BLOCK_SIZE);
 }
 
-function play() {
-    resetGame();
-    let piece = new Piece(ctx);
-    board.piece = piece;
-    board.piece.setStartingPosition();
-    animate();
+function addEventListener() {
+    document.addEventListener('keydown', handleKeyPress);
 }
 
-// 게임 초기화
-function resetGame() {
-    account.score = 0;
-    account.lines = 0;
-    account.level = 0;
-    board.reset();
-    time = { start: performance.now(), elapsed: 0, level: LEVEL[account.level] };
-}
-
-document.addEventListener('keydown', event => {
+function handleKeyPress(event) {
     if (moves[event.key]) {
         // 이벤트 버블링을 막는다.
         event.preventDefault();
@@ -104,7 +92,26 @@ document.addEventListener('keydown', event => {
             }
         }
     }
-});
+}
+
+function play() {
+    addEventListener();
+    resetGame();
+
+    let piece = new Piece(ctx);
+    board.piece = piece;
+    board.piece.setStartingPosition();
+    animate();
+}
+
+// 게임 초기화
+function resetGame() {
+    account.score = 0;
+    account.lines = 0;
+    account.level = 0;
+    board.reset();
+    time = { start: performance.now(), elapsed: 0, level: LEVEL[account.level] };
+}
 
 // game loop
 function animate(now = 0) {
@@ -138,4 +145,35 @@ function gameOver() {
     ctx.font = '1px Arial';
     ctx.fillStyle = 'red';
     ctx.fillText('GAME OVER', 1.8, 4);
+
+    checkHighScore(account.score);
+}
+
+function showHighScores() {
+    const highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+    const highScoreList = document.getElementById('highScores');
+
+    highScoreList.innerHTML = highScores
+        .map((score) => `<li>${score.score} - ${score.name}`)
+        .join('');
+}
+
+function checkHighScore(score) {
+    const highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+    const lowestScore = highScores[NO_OF_HIGH_SCORES - 1]?.score ?? 0;
+
+    if (score > lowestScore) {
+        const name = prompt('You got a highscore! Enter name:');
+        const newScore = { score, name };
+        saveHighScore(newScore, highScores);
+        showHighScores();
+    }
+}
+
+function saveHighScore(score, highScores) {
+    highScores.push(score);
+    highScores.sort((a, b) => b.score - a.score);
+    highScores.splice(NO_OF_HIGH_SCORES);
+
+    localStorage.setItem('highScores', JSON.stringify(highScores));
 }

@@ -40,6 +40,10 @@
     align-items: center;
   }
 
+  ol {
+    line-height: 200%;
+  }
+
   #pause-btn {
     display: none;
   }

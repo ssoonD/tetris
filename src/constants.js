@@ -4,6 +4,7 @@ const COLS = 10;
 const ROWS = 20;
 const BLOCK_SIZE = 30;
 const LINES_PER_LEVEL = 10;
+const NO_OF_HIGH_SCORES = 5;
 
 const COLORS = [
     'cyan',
@@ -100,6 +101,4 @@ const LEVEL = {
 // Object.freeze() : 객체를 동결
 // 1. 잘 동작하게 하려면, 엄격 모드를 사용
 // 2. 불변으로 만드는 값은 1레벨에서만 동작
-Object.freeze(KEY);
-Object.freeze(POINTS);
-Object.freeze(LEVEL);
+[COLORS, SHAPES, KEY, POINTS, LEVEL].forEach(item => Object.freeze(item));
