@@ -54,6 +54,19 @@ class Board {
         });
     }
 
+    cleanLines() {
+        this.grid.forEach((row, y) => {
+            // 모든 갑시 0보다 큰지 비교한다.
+            if (row.every(value => value > 0)) {
+                // 행을 삭제한다.
+                this.grid.splice(y, 1);
+
+                // 맨 위에 0으로 채워진 행을 추가한다.
+                this.grid.unshift(Array(COLS).fill(0));
+            }
+        });
+    }
+
     draw() {
         this.piece.draw();
         this.drawBoard();
@@ -65,6 +78,7 @@ class Board {
             this.piece.move(p);
         } else {
             this.freeze();
+            this.cleanLines();
             this.piece.spawn();
         }
         return true;
