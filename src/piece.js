@@ -10,7 +10,6 @@ class Piece {
     spawn() {
         this.typeId = this.randomizeTetrominoType(COLORS.length);
         this.shape = SHAPES[this.typeId];
-        this.color = COLORS[this.typeId];
         // Starting position
         this.x = 0;
         this.y = 0;
@@ -18,13 +17,13 @@ class Piece {
 
     // 해당 테트로미노 그려주기
     draw() {
-        this.ctx.fillStyle = this.color;
         this.shape.forEach((row, y) => {
             row.forEach((value, x) => {
                 // this.x, this.y는 shape 상단 왼쪽 좌표이다.
                 // shape 안에 있는 블록 좌표에 x, y를 더한다.
                 // 보드에서 블록의 좌표는 this.x + x가 된다.
                 if (value > 0) {
+                    this.ctx.fillStyle = COLORS[value - 1];
                     this.ctx.fillRect(this.x + x, this.y + y, 1, 1);
                 }
             });

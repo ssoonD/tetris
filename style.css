@@ -55,6 +55,27 @@
     line-height: 150%;
   }
 
+  .input-name {
+    position: absolute;
+    width: auto;
+    text-align: center;
+    padding: 30px 20px;
+    border: 5px solid red;
+    background: white;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+  }
+
+  input {
+    width: 500px;
+    height: 40px;
+    border: 0px;
+    background-color: transparent;
+    text-align: center;
+}
+
   #pause-btn {
     display: none;
   }

@@ -6,8 +6,11 @@ const canvasNext = document.getElementById('next');
 const ctxNext = canvasNext.getContext('2d');
 const canvasKeep = document.getElementById('keep');
 const ctxKeep = canvasKeep.getContext('2d');
+
 const playBtn = document.querySelector('#play-btn');
 const pauseBtn = document.querySelector('#pause-btn');
+const form = document.querySelector('.input-name');
+const input = form.querySelector('.name-txt');
 
 let accountValues = {
     score: 0,
@@ -211,10 +214,13 @@ function checkHighScore(score) {
     const lowestScore = highScores[NO_OF_HIGH_SCORES - 1]?.score ?? 0;
 
     if (score > lowestScore) {
-        const name = prompt('You got a highscore! Enter name:');
-        const newScore = { score, name };
-        saveHighScore(newScore, highScores);
-        showHighScores();
+        form.style.display = 'block';
+        form.addEventListener('submit', () => {
+            const name = input.value;
+            const newScore = { score, name };
+            saveHighScore(newScore, highScores);
+            showHighScores();
+        });
     }
 }
 
