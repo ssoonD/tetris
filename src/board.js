@@ -1,14 +1,17 @@
 // 보드 로직 파일
 
 class Board {
-    constructor(ctx) {
+    constructor(ctx, ctxNext) {
         this.ctx = ctx;
+        this.ctxNext = ctxNext;
     }
 
     // 새 게임이 시작되면 보드를 초기화한다.
     reset() {
         this.grid = this.getEmptyBoard();
         this.piece = new Piece(this.ctx);
+        this.piece.setStartingPosition();
+        this.getNewPiece();
     }
 
     // 0으로 채워진 행렬을 얻는다.
@@ -16,6 +19,13 @@ class Board {
         return Array.from(
             { length: ROWS }, () => Array(COLS).fill(0)
         );
+    }
+
+    getNewPiece() {
+        const { width, height } = this.ctxNext.canvas;
+        this.next = new Piece(this.ctxNext);
+        this.ctxNext.clearRect(0, 0, width, height);
+        this.next.draw();
     }
 
     valid(p) {
@@ -107,6 +117,11 @@ class Board {
             this.freeze();
             this.cleanLines();
             this.piece.spawn();
+
+            this.piece = this.next;
+            this.piece.ctx = this.ctx;
+            this.piece.setStartingPosition();
+            this.getNewPiece();
         }
         return true;
     }

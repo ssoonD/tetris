@@ -2,6 +2,8 @@
 
 const canvas = document.getElementById('board');
 const ctx = canvas.getContext('2d');
+const canvasNext = document.getElementById('next');
+const ctxNext = canvasNext.getContext('2d');
 
 let accountValues = {
     score: 0,
@@ -22,7 +24,7 @@ let account = new Proxy(accountValues, {
         updateAccount(key, value);
         return true;
     }
-})
+});
 
 // 상수를 사용해 캔버스의 크기를 계산한다.
 ctx.canvas.width = COLS * BLOCK_SIZE;
@@ -42,12 +44,22 @@ const moves = {
     [KEY.UP]: p => board.rotate(p)
 };
 
-let board = new Board(ctx);
+let board = new Board(ctx, ctxNext);
+
+initNext();
+
+function initNext() {
+    // 4개 블록을 위한 캔버스 사이즈를 설정한다.
+    ctxNext.canvas.width = 4 * BLOCK_SIZE;
+    ctxNext.canvas.height = 4 * BLOCK_SIZE;
+    ctxNext.scale(BLOCK_SIZE, BLOCK_SIZE);
+}
 
 function play() {
     resetGame();
     let piece = new Piece(ctx);
     board.piece = piece;
+    board.piece.setStartingPosition();
     animate();
 }
 

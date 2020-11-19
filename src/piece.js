@@ -8,11 +8,11 @@ class Piece {
 
     // 테트로미노의 위치, 색상 및 모양 지정
     spawn() {
-        const typeId = this.randomizeTetrominoType(COLORS.length);
-        this.shape = SHAPES[typeId];
-        this.color = COLORS[typeId];
+        this.typeId = this.randomizeTetrominoType(COLORS.length);
+        this.shape = SHAPES[this.typeId];
+        this.color = COLORS[this.typeId];
         // Starting position
-        this.x = 3;
+        this.x = 0;
         this.y = 0;
     }
 
@@ -36,6 +36,11 @@ class Piece {
         this.shape = p.shape;
         this.x = p.x;
         this.y = p.y;
+    }
+
+    // 테트로미노 index 지정
+    setStartingPosition() {
+        this.x = this.typeId === 3 ? 4 : 3;
     }
 
     // 랜덤 번호 만들어주기
