@@ -45,6 +45,7 @@ let board = new Board(ctx, ctxNext, ctxKeep);
 initNext();
 initKeep();
 showHighScores();
+showControlKey();
 
 function initNext() {
     // 4개 블록을 위한 캔버스 사이즈를 설정한다.
@@ -149,6 +150,13 @@ function gameOver() {
     ctx.fillText('GAME OVER', 1.8, 4);
 
     checkHighScore(account.score);
+}
+
+function showControlKey() {
+    const contorlKeyList = document.getElementById('contorl-keys');
+
+    contorlKeyList.innerHTML = CONTROL_KEYS
+        .map((key) => `<li>${key}`);
 }
 
 function showHighScores() {

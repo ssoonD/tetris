@@ -100,6 +100,16 @@ const LEVEL = {
     // 29+ is 20ms
 };
 
+const CONTROL_KEYS = [
+    '&nbsp;△&nbsp;&nbsp;: Turn',
+    '◁  ▷ : Left / Right',
+    '&nbsp;▽&nbsp;&nbsp;: Soft Drop',
+    ' SPACE : Hard Drop',
+    '&nbsp;&nbsp;P&nbsp;&nbsp; : Pause',
+    '&nbsp;ALT&nbsp; : Keep',
+    '&nbsp;ESC&nbsp; : Quit'
+];
+
 // Object.freeze() : 객체를 동결
 // 1. 잘 동작하게 하려면, 엄격 모드를 사용
 // 2. 불변으로 만드는 값은 1레벨에서만 동작
