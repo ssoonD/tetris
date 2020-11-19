@@ -62,8 +62,8 @@ const KEY = {
     UP: 'ArrowUp',
     SPACE: ' ',
     CONTROL: 'Control',
-    ALT: 'Alt',
-    ESC: 'Escape'
+    ESC: 'Escape',
+    P: 'p'
 };
 
 const POINTS = {
@@ -104,10 +104,11 @@ const CONTROL_KEYS = [
     '&nbsp;△&nbsp;&nbsp;: Turn',
     '◁  ▷ : Left / Right',
     '&nbsp;▽&nbsp;&nbsp;: Soft Drop',
-    ' SPACE : Hard Drop',
-    '&nbsp;&nbsp;P&nbsp;&nbsp; : Pause',
-    '&nbsp;ALT&nbsp; : Keep',
-    '&nbsp;ESC&nbsp; : Quit'
+    '<br>',
+    'CONTROL: Keep',
+    '&nbsp;SPACE : Hard Drop',
+    '&nbsp;&nbsp; P&nbsp;&nbsp; : Pause',
+    '&nbsp; ESC&nbsp; : Quit'
 ];
 
 // Object.freeze() : 객체를 동결

@@ -156,7 +156,8 @@ function showControlKey() {
     const contorlKeyList = document.getElementById('contorl-keys');
 
     contorlKeyList.innerHTML = CONTROL_KEYS
-        .map((key) => `<li>${key}`);
+        .map((key) => `<li>${key}`)
+        .join('');
 }
 
 function showHighScores() {
