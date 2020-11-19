@@ -6,6 +6,8 @@ const canvasNext = document.getElementById('next');
 const ctxNext = canvasNext.getContext('2d');
 const canvasKeep = document.getElementById('keep');
 const ctxKeep = canvasKeep.getContext('2d');
+const playBtn = document.querySelector('#play-btn');
+const pauseBtn = document.querySelector('#pause-btn');
 
 let accountValues = {
     score: 0,
@@ -30,6 +32,7 @@ let account = new Proxy(accountValues, {
 
 let requestId = null;
 let time = null;
+let playNow = true;
 
 const moves = {
     [KEY.LEFT]: p => ({ x: p.x - 1, y: p.y, shape: p.shape }),
@@ -65,11 +68,16 @@ function addEventListener() {
 }
 
 function handleKeyPress(event) {
+    if (event.key === KEY.P) {
+        pause();
+    }
     if (event.key === KEY.ESC) {
         gameOver();
     } else if (moves[event.key]) {
         // 이벤트 버블링을 막는다.
         event.preventDefault();
+
+        if (!playNow) return;
 
         // Get new state
         let p = moves[event.key](board.piece);
@@ -105,6 +113,9 @@ function play() {
     board.piece = piece;
     board.piece.setStartingPosition();
     animate();
+
+    playBtn.style.display = 'none';
+    pauseBtn.style.display = 'block';
 }
 
 // 게임 초기화
@@ -150,6 +161,32 @@ function gameOver() {
     ctx.fillText('GAME OVER', 1.8, 4);
 
     checkHighScore(account.score);
+
+    playBtn.style.display = 'block';
+    pauseBtn.style.display = 'none';
+}
+
+function pause() {
+    if (!playNow) {
+        playBtn.style.display = 'none';
+        pauseBtn.style.display = 'block';
+        animate();
+        playNow = true;
+        return;
+    }
+
+    playNow = false;
+
+    cancelAnimationFrame(requestId);
+
+    ctx.fillStyle = 'black';
+    ctx.fillRect(1, 3, 8, 1.2);
+    ctx.font = '1px Arial';
+    ctx.fillStyle = 'yellow';
+    ctx.fillText('PAUSED', 3, 4);
+
+    playBtn.style.display = 'block';
+    pauseBtn.style.display = 'none';
 }
 
 function showControlKey() {
